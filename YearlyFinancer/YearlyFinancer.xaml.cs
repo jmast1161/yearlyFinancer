@@ -23,5 +23,14 @@ namespace YearlyFinancer
         {
             InitializeComponent();
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // ... Get control that raised this event.
+            var textBox = sender as TextBox;
+            // ... Change Window Title.
+            this.Title = textBox.Text +
+            "[Length = " + textBox.Text.Length.ToString() + "]";
+        }
     }
 }

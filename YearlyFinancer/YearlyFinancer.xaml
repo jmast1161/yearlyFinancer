@@ -1,12 +1,35 @@
 ﻿<Window x:Class="YearlyFinancer.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:YearlyFinancer"
-        mc:Ignorable="d"
-        Title="Yearly Financer" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:YearlyFinancer"
+		mc:Ignorable="d"
+		Title="Yearly Financer" Height="350" Width="525">
+	<Grid Background="#FFBBB9B9">
+		<TextBox HorizontalAlignment="Left"
+		         Height="25"
+		         Margin="5,0,0,20"
+		         TextWrapping="Wrap"
+		         Text=""
+		         VerticalAlignment="Bottom"
+		         Width="120"
+		         TextChanged="TextBox_TextChanged"/>
+		<TextBox HorizontalAlignment="Center"
+		         Height="25"
+		         Margin="0,0,0,20"
+		         TextWrapping="Wrap"
+		         Text=""
+		         VerticalAlignment="Bottom"
+		         Width="120"
+		         TextChanged="TextBox_TextChanged"/>
+		<TextBox
+		         Height="25"
+		         Margin="0,0,5,20"
+		         TextWrapping="Wrap"
+		         Text=""
+		         VerticalAlignment="Bottom"
+		         Width="120"
+		         TextChanged="TextBox_TextChanged" HorizontalAlignment="Right"/>
+	</Grid>
 </Window>
