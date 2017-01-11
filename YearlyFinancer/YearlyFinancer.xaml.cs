@@ -32,5 +32,23 @@ namespace YearlyFinancer
             this.Title = textBox.Text +
             "[Length = " + textBox.Text.Length.ToString() + "]";
         }
+
+        private void Credit_Click(object sender, RoutedEventArgs e)
+        {
+            TotalCreditValue.Text = ValueEntry.Text;
+        }
+
+        private void Debit_Click(object sender, RoutedEventArgs e)
+        {
+            var value = Convert.ToDouble(ValueEntry.Text);
+            if (value >= 0)
+            {
+                TotalIncomeValue.Text = value.ToString();
+            }
+            else
+            {
+                TotalSpendingValue.Text = value.ToString();
+            }
+        }
     }
 }
