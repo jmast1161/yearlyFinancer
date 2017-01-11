@@ -7,7 +7,47 @@
 		mc:Ignorable="d"
 		Title="Yearly Financer" Height="350" Width="525">
 	<Grid Background="#FFBBB9B9">
-		<TextBox HorizontalAlignment="Left"
+        <TextBlock Margin="5,0,0,0"
+                   HorizontalAlignment="Left">Net Gain/Loss</TextBlock>
+        <TextBlock Margin="5,10,0,0"
+                   HorizontalAlignment="Left">Total Income</TextBlock>
+        <TextBlock Margin="5,20,0,0"
+                   HorizontalAlignment="Left">Total Spending</TextBlock>
+        <TextBlock Margin="5,30,0,0"
+                   HorizontalAlignment="Left">Total Credit</TextBlock>
+        <TextBlock Margin="5,40,0,0"
+                   HorizontalAlignment="Left">Average Monthly Income</TextBlock>
+        <TextBlock Margin="5,50,0,0"
+                   HorizontalAlignment="Left">Average Monthly Spending</TextBlock>
+        <TextBlock Margin="5,60,0,0"
+                   HorizontalAlignment="Left">Average Monthly Credit</TextBlock>
+        <TextBlock Margin="5,70,0,0"
+                   HorizontalAlignment="Left">Average Weekly Income</TextBlock>
+        <TextBlock Margin="5,80,0,0"
+                   HorizontalAlignment="Left">Average Weekly Spending</TextBlock>
+        <TextBlock Margin="5,90,0,0"
+                   HorizontalAlignment="Left">Average Weekly Credit</TextBlock>
+        <TextBlock Margin="0,0,5,0"
+                   HorizontalAlignment="Right">0</TextBlock>
+        <TextBlock Margin="0,10,5,0"
+                   HorizontalAlignment="Right">0</TextBlock>
+        <TextBlock Margin="0,20,5,0"
+                   HorizontalAlignment="Right">0</TextBlock>
+        <TextBlock Margin="0,30,5,0"
+                   HorizontalAlignment="Right">0</TextBlock>
+        <TextBlock Margin="0,40,5,0"
+                   HorizontalAlignment="Right">0</TextBlock>
+        <TextBlock Margin="0,50,5,0"
+                   HorizontalAlignment="Right">0</TextBlock>
+        <TextBlock Margin="0,60,5,0"
+                   HorizontalAlignment="Right">0</TextBlock>
+        <TextBlock Margin="0,70,5,0"
+                   HorizontalAlignment="Right">0</TextBlock>
+        <TextBlock Margin="0,80,5,0"
+                   HorizontalAlignment="Right">0</TextBlock>
+        <TextBlock Margin="0,90,5,0"
+                   HorizontalAlignment="Right">0</TextBlock>
+		<TextBox x:Name="ValueEntry" HorizontalAlignment="Left"
 		         Height="25"
 		         Margin="5,0,0,20"
 		         TextWrapping="Wrap"
@@ -15,21 +55,21 @@
 		         VerticalAlignment="Bottom"
 		         Width="120"
 		         TextChanged="TextBox_TextChanged"/>
-		<TextBox HorizontalAlignment="Center"
-		         Height="25"
-		         Margin="0,0,0,20"
-		         TextWrapping="Wrap"
-		         Text=""
-		         VerticalAlignment="Bottom"
-		         Width="120"
-		         TextChanged="TextBox_TextChanged"/>
-		<TextBox
-		         Height="25"
-		         Margin="0,0,5,20"
-		         TextWrapping="Wrap"
-		         Text=""
-		         VerticalAlignment="Bottom"
-		         Width="120"
-		         TextChanged="TextBox_TextChanged" HorizontalAlignment="Right"/>
-	</Grid>
+        <Button x:Name="Debit"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,0,20"
+                Height="25"
+                Width="120">
+            <TextBlock>Debit</TextBlock>
+        </Button>
+        <Button x:Name="Credit"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,5,20"
+                Height="25"
+                Width="120">
+            <TextBlock>Credit</TextBlock>
+        </Button>
+    </Grid>
 </Window>
