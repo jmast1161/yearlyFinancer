@@ -19,9 +19,16 @@ namespace YearlyFinancer
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Dictionary<DateTime, double> incomeData;
+        private Dictionary<DateTime, double> spendingData;
+        private Dictionary<DateTime, double> creditData;
+
         public MainWindow()
         {
             InitializeComponent();
+            incomeData = new Dictionary<DateTime, double>();
+            spendingData = new Dictionary<DateTime, double>();
+            creditData = new Dictionary<DateTime, double>();
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -36,6 +43,8 @@ namespace YearlyFinancer
         private void Credit_Click(object sender, RoutedEventArgs e)
         {
             TotalCreditValue.Text = ValueEntry.Text;
+            var value = Convert.ToDouble(ValueEntry.Text);
+            creditData.Add(DateTime.Now, value);
         }
 
         private void Debit_Click(object sender, RoutedEventArgs e)
@@ -43,12 +52,16 @@ namespace YearlyFinancer
             var value = Convert.ToDouble(ValueEntry.Text);
             if (value >= 0)
             {
-                TotalIncomeValue.Text = value.ToString();
+                incomeData.Add(DateTime.Now, value);
+                TotalIncomeValue.Text = incomeData.Values.Sum().ToString();
             }
             else
             {
-                TotalSpendingValue.Text = value.ToString();
+                spendingData.Add(DateTime.Now, value);
+                TotalSpendingValue.Text = spendingData.Values.Sum().ToString();
             }
+
+            NetGainLossValue.Text = (incomeData.Values.Sum() + spendingData.Values.Sum()).ToString();
         }
     }
 }
