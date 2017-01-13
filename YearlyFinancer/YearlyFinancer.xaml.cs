@@ -19,16 +19,14 @@ namespace YearlyFinancer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Dictionary<DateTime, double> incomeData;
-        private Dictionary<DateTime, double> spendingData;
-        private Dictionary<DateTime, double> creditData;
+        public const int totalMonths = 12;
+        public const int totalWeeks = 52;        
+        private List<DataEntry> data;
 
         public MainWindow()
         {
             InitializeComponent();
-            incomeData = new Dictionary<DateTime, double>();
-            spendingData = new Dictionary<DateTime, double>();
-            creditData = new Dictionary<DateTime, double>();
+            data = new List<DataEntry>();
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -40,28 +38,48 @@ namespace YearlyFinancer
             "[Length = " + textBox.Text.Length.ToString() + "]";
         }
 
+        private void InsertValue(DataEntry.TransactionType transType)
+        {
+            var value = Convert.ToDouble(ValueEntry.Text);
+            var dataEntry = new DataEntry() { Description = string.Empty,
+                                              Date = DateTime.Now,
+                                              TransType = transType,
+                                              Value = value};
+            data.Add(dataEntry);
+        }
+
         private void Credit_Click(object sender, RoutedEventArgs e)
         {
-            TotalCreditValue.Text = ValueEntry.Text;
-            var value = Convert.ToDouble(ValueEntry.Text);
-            creditData.Add(DateTime.Now, value);
+            InsertValue(DataEntry.TransactionType.Credit);
+            var total = data.Where(d => d.TransType == DataEntry.TransactionType.Credit).ToList().Sum(v => v.Value);            
+            TotalCreditValue.Text = total.ToString();
+            AvgMoCredit.Text = (total / totalMonths).ToString();
+            AvgWeekCredit.Text = (total / totalWeeks).ToString();
         }
 
         private void Debit_Click(object sender, RoutedEventArgs e)
         {
             var value = Convert.ToDouble(ValueEntry.Text);
+            double totalIncome = data.Where(d => d.TransType == DataEntry.TransactionType.Income).ToList().Sum(v => v.Value);
+            double totalSpending = data.Where(d => d.TransType == DataEntry.TransactionType.Spending).ToList().Sum(v => v.Value);
             if (value >= 0)
             {
-                incomeData.Add(DateTime.Now, value);
-                TotalIncomeValue.Text = incomeData.Values.Sum().ToString();
+                InsertValue(DataEntry.TransactionType.Income);
+                totalIncome += Convert.ToDouble(ValueEntry.Text);
+                TotalIncomeValue.Text = totalIncome.ToString();
+                AvgMoIncome.Text = (totalIncome / totalMonths).ToString();
+                AvgWeekIncome.Text = (totalIncome / totalWeeks).ToString();
             }
             else
             {
-                spendingData.Add(DateTime.Now, value);
-                TotalSpendingValue.Text = spendingData.Values.Sum().ToString();
+                InsertValue(DataEntry.TransactionType.Spending);
+                totalSpending += Convert.ToDouble(ValueEntry.Text);
+                TotalSpendingValue.Text = totalSpending.ToString();
+                AvgMoSpending.Text = (totalSpending / totalMonths).ToString();
+                AvgWeekSpending.Text = (totalSpending / totalWeeks).ToString();
             }
 
-            NetGainLossValue.Text = (incomeData.Values.Sum() + spendingData.Values.Sum()).ToString();
+            NetGainLossValue.Text = (totalIncome + totalSpending).ToString();
         }
     }
 }

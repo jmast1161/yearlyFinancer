@@ -61,6 +61,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataEntry.cs" />
     <Compile Include="YearlyFinancer.xaml.cs">
       <DependentUpon>YearlyFinancer.xaml</DependentUpon>
       <SubType>Code</SubType>
