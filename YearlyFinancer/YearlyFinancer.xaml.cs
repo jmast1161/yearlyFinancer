@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -21,12 +22,16 @@ namespace YearlyFinancer
     {
         public const int totalMonths = 12;
         public const int totalWeeks = 52;        
-        private List<DataEntry> data;
+        public ObservableCollection<DataEntry> Data
+        {
+            get;
+            set;
+        }
 
         public MainWindow()
         {
             InitializeComponent();
-            data = new List<DataEntry>();
+            Data = new ObservableCollection<DataEntry>();
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -41,17 +46,17 @@ namespace YearlyFinancer
         private void InsertValue(DataEntry.TransactionType transType)
         {
             var value = Convert.ToDouble(ValueEntry.Text);
-            var dataEntry = new DataEntry() { Description = string.Empty,
+            var dataEntry = new DataEntry() { Description = "test",
                                               Date = DateTime.Now,
                                               TransType = transType,
-                                              Value = value};
-            data.Add(dataEntry);
+                                              EntryValue = value};
+            Data.Add(dataEntry);
         }
 
         private void Credit_Click(object sender, RoutedEventArgs e)
         {
             InsertValue(DataEntry.TransactionType.Credit);
-            var total = data.Where(d => d.TransType == DataEntry.TransactionType.Credit).ToList().Sum(v => v.Value);            
+            var total = Data.Where(d => d.TransType == DataEntry.TransactionType.Credit).ToList().Sum(v => v.EntryValue);            
             TotalCreditValue.Text = total.ToString();
             AvgMoCredit.Text = (total / totalMonths).ToString();
             AvgWeekCredit.Text = (total / totalWeeks).ToString();
@@ -60,8 +65,8 @@ namespace YearlyFinancer
         private void Debit_Click(object sender, RoutedEventArgs e)
         {
             var value = Convert.ToDouble(ValueEntry.Text);
-            double totalIncome = data.Where(d => d.TransType == DataEntry.TransactionType.Income).ToList().Sum(v => v.Value);
-            double totalSpending = data.Where(d => d.TransType == DataEntry.TransactionType.Spending).ToList().Sum(v => v.Value);
+            double totalIncome = Data.Where(d => d.TransType == DataEntry.TransactionType.Income).ToList().Sum(v => v.EntryValue);
+            double totalSpending = Data.Where(d => d.TransType == DataEntry.TransactionType.Spending).ToList().Sum(v => v.EntryValue);
             if (value >= 0)
             {
                 InsertValue(DataEntry.TransactionType.Income);

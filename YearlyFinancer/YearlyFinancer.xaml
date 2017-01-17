@@ -79,10 +79,10 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Data Table">
-                <DataGrid>
+                <DataGrid x:Name="ValueDataGrid" ItemsSource = "{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Data}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Description"/>
-                        <DataGridTextColumn Header="Date"/>
+                        <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                        <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
                         <DataGridTextColumn Header="Income"/>
                         <DataGridTextColumn Header="Spent"/>
                         <DataGridTextColumn Header="Credit"/>                        
