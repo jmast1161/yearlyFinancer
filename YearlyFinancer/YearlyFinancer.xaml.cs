@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -46,7 +48,7 @@ namespace YearlyFinancer
         private void InsertValue(DataEntry.TransactionType transType)
         {
             var value = Convert.ToDouble(ValueEntry.Text);
-            var dataEntry = new DataEntry() { Description = "test",
+            var dataEntry = new DataEntry() { Description = this.Description.Text,
                                               Date = DateTime.Now,
                                               TransType = transType,
                                               EntryValue = value};
@@ -85,6 +87,37 @@ namespace YearlyFinancer
             }
 
             NetGainLossValue.Text = (totalIncome + totalSpending).ToString();
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            ValueDataGrid.SelectAllCells();
+            ValueDataGrid.ClipboardCopyMode = DataGridClipboardCopyMode.IncludeHeader;
+            ApplicationCommands.Copy.Execute(null, ValueDataGrid);
+            ValueDataGrid.UnselectAllCells();
+            string result = (string)Clipboard.GetData(DataFormats.CommaSeparatedValue);
+            File.AppendAllText(@"values.csv", result, UnicodeEncoding.UTF8);
+        }
+
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            var dataVals = File.ReadAllLines("values.csv");
+            for (int i = 1; i < dataVals.Length - 1; ++i)
+            {
+                var dataEntry = FromCsv(dataVals[i]);
+                Data.Add(dataEntry);
+            }
+        }
+
+        private DataEntry FromCsv(string csvLine)
+        {
+            var dataEntry = new DataEntry();
+            string[] values = csvLine.Split(',');
+            dataEntry.Description = values[0];
+            dataEntry.Date = Convert.ToDateTime(values[1]);
+            dataEntry.TransType = (DataEntry.TransactionType) Enum.Parse(typeof(DataEntry.TransactionType), values[2], true);
+            dataEntry.EntryValue = Convert.ToDouble(values[3]);
+            return dataEntry;
         }
     }
 }

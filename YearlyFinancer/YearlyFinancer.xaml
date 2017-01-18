@@ -50,6 +50,13 @@
                                HorizontalAlignment="Right">0</TextBlock>
                     <TextBlock x:Name="AvgWeekCredit" Margin="0,90,5,0"
                                HorizontalAlignment="Right">0</TextBlock>
+                    <TextBox x:Name="Description" HorizontalAlignment="Left"
+		                     Height="25"
+		                     Margin="5,0,0,50"
+		                     TextWrapping="Wrap"
+		                     Text=""
+		                     VerticalAlignment="Bottom"
+		                     Width="120"/>
                     <TextBox x:Name="ValueEntry" HorizontalAlignment="Left"
 		                     Height="25"
 		                     Margin="5,0,0,20"
@@ -58,6 +65,24 @@
 		                     VerticalAlignment="Bottom"
 		                     Width="120"
 		                     TextChanged="TextBox_TextChanged"/>
+                    <Button x:Name="Save"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,0,50"
+                            Height="25"
+                            Width="120"
+                            Click="Save_Click">
+                        <TextBlock>Save</TextBlock>
+                    </Button>
+                    <Button x:Name="Open"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,5,50"
+                            Height="25"
+                            Width="120"
+                            Click="Open_Click">
+                        <TextBlock>Open</TextBlock>
+                    </Button>
                     <Button x:Name="Debit"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Bottom"
@@ -83,9 +108,8 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
                         <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
-                        <DataGridTextColumn Header="Income"/>
-                        <DataGridTextColumn Header="Spent"/>
-                        <DataGridTextColumn Header="Credit"/>                        
+                        <DataGridTextColumn Header="Transaction Type" Binding="{Binding TransType}"/>
+                        <DataGridTextColumn Header="Value" Binding="{Binding EntryValue}"/>                      
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
