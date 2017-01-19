@@ -8,7 +8,7 @@
 		Title="Yearly Financer" Height="350" Width="525">
     <Grid Background="#FFBBB9B9">
         <TabControl>
-            <TabItem Header="Data Entry">
+            <TabItem Header="Analysis">
                 <Grid>
                     <TextBlock Margin="5,0,0,0"
                                 HorizontalAlignment="Left">Net Gain/Loss</TextBlock>
@@ -49,26 +49,30 @@
                     <TextBlock x:Name="AvgWeekSpending" Margin="0,80,5,0"
                                HorizontalAlignment="Right">0</TextBlock>
                     <TextBlock x:Name="AvgWeekCredit" Margin="0,90,5,0"
-                               HorizontalAlignment="Right">0</TextBlock>
+                               HorizontalAlignment="Right">0</TextBlock>                    
+                </Grid>
+            </TabItem>
+            <TabItem Header="Data">
+                <Grid>
                     <TextBox x:Name="Description" HorizontalAlignment="Left"
 		                     Height="25"
-		                     Margin="5,0,0,50"
+		                     Margin="5,0,0,0"
 		                     TextWrapping="Wrap"
 		                     Text=""
-		                     VerticalAlignment="Bottom"
+		                     VerticalAlignment="Top"
 		                     Width="120"/>
                     <TextBox x:Name="ValueEntry" HorizontalAlignment="Left"
 		                     Height="25"
-		                     Margin="5,0,0,20"
+		                     Margin="5,40,0,0"
 		                     TextWrapping="Wrap"
 		                     Text=""
-		                     VerticalAlignment="Bottom"
+		                     VerticalAlignment="Top"
 		                     Width="120"
 		                     TextChanged="TextBox_TextChanged"/>
                     <Button x:Name="Save"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Margin="0,0,0,50"
+                            VerticalAlignment="Top"
+                            Margin="0,0,0,0"
                             Height="25"
                             Width="120"
                             Click="Save_Click">
@@ -76,8 +80,8 @@
                     </Button>
                     <Button x:Name="Open"
                             HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom"
-                            Margin="0,0,5,50"
+                            VerticalAlignment="Top"
+                            Margin="0,0,5,0"
                             Height="25"
                             Width="120"
                             Click="Open_Click">
@@ -85,8 +89,8 @@
                     </Button>
                     <Button x:Name="Debit"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Margin="0,0,0,20"
+                            VerticalAlignment="Top"
+                            Margin="0,40,0,20"
                             Height="25"
                             Width="120"
                             Click="Debit_Click">
@@ -94,24 +98,22 @@
                     </Button>
                     <Button x:Name="Credit"
                             HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom"
-                            Margin="0,0,5,20"
+                            VerticalAlignment="Top"
+                            Margin="0,40,5,20"
                             Height="25"
                             Width="120"
                             Click="Credit_Click">
                         <TextBlock>Credit</TextBlock>
                     </Button>
+                    <DataGrid x:Name="ValueDataGrid" ItemsSource = "{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Data}" AutoGenerateColumns="False" Margin="0,80,0,0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                            <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
+                            <DataGridTextColumn Header="Transaction Type" Binding="{Binding TransType}"/>
+                            <DataGridTextColumn Header="Value" Binding="{Binding EntryValue}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
-            </TabItem>
-            <TabItem Header="Data Table">
-                <DataGrid x:Name="ValueDataGrid" ItemsSource = "{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Data}" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
-                        <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
-                        <DataGridTextColumn Header="Transaction Type" Binding="{Binding TransType}"/>
-                        <DataGridTextColumn Header="Value" Binding="{Binding EntryValue}"/>                      
-                    </DataGrid.Columns>
-                </DataGrid>
             </TabItem>
         </TabControl>
     </Grid>
