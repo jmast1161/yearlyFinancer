@@ -119,5 +119,20 @@ namespace YearlyFinancer
             dataEntry.EntryValue = Convert.ToDouble(values[3]);
             return dataEntry;
         }
+
+        private void SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Update_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
