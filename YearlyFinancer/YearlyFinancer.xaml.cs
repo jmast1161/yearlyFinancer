@@ -35,16 +35,7 @@ namespace YearlyFinancer
             InitializeComponent();
             Data = new ObservableCollection<DataEntry>();
         }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            // ... Get control that raised this event.
-            var textBox = sender as TextBox;
-            // ... Change Window Title.
-            this.Title = textBox.Text +
-            "[Length = " + textBox.Text.Length.ToString() + "]";
-        }
-
+        
         private void InsertValue(DataEntry.TransactionType transType)
         {
             var value = Convert.ToDouble(ValueEntry.Text);
@@ -54,41 +45,44 @@ namespace YearlyFinancer
                                               EntryValue = value};
             Data.Add(dataEntry);
         }
-
-        private void Credit_Click(object sender, RoutedEventArgs e)
-        {
-            InsertValue(DataEntry.TransactionType.Credit);
-            var total = Data.Where(d => d.TransType == DataEntry.TransactionType.Credit).ToList().Sum(v => v.EntryValue);            
-            TotalCreditValue.Text = total.ToString();
-            AvgMoCredit.Text = (total / totalMonths).ToString();
-            AvgWeekCredit.Text = (total / totalWeeks).ToString();
-        }
-
-        private void Debit_Click(object sender, RoutedEventArgs e)
+        
+        private void Update_Click(object sender, RoutedEventArgs e)
         {
             var value = Convert.ToDouble(ValueEntry.Text);
+            DataEntry.TransactionType transType = DataEntry.TransactionType.Income;
+            if (incomeRadioButton.IsChecked == true)
+            {
+                transType = DataEntry.TransactionType.Income;
+            }
+            else if (spendingRadioButton.IsChecked == true)
+            {
+                transType = DataEntry.TransactionType.Spending;
+            }
+            else if (creditRadioButton.IsChecked == true)
+            {
+                transType = DataEntry.TransactionType.Credit;
+            }
+
+            InsertValue(transType);
+            double totalCredit = Data.Where(d => d.TransType == DataEntry.TransactionType.Credit).ToList().Sum(v => v.EntryValue);
             double totalIncome = Data.Where(d => d.TransType == DataEntry.TransactionType.Income).ToList().Sum(v => v.EntryValue);
             double totalSpending = Data.Where(d => d.TransType == DataEntry.TransactionType.Spending).ToList().Sum(v => v.EntryValue);
-            if (value >= 0)
-            {
-                InsertValue(DataEntry.TransactionType.Income);
-                totalIncome += Convert.ToDouble(ValueEntry.Text);
-                TotalIncomeValue.Text = totalIncome.ToString();
-                AvgMoIncome.Text = (totalIncome / totalMonths).ToString();
-                AvgWeekIncome.Text = (totalIncome / totalWeeks).ToString();
-            }
-            else
-            {
-                InsertValue(DataEntry.TransactionType.Spending);
-                totalSpending += Convert.ToDouble(ValueEntry.Text);
-                TotalSpendingValue.Text = totalSpending.ToString();
-                AvgMoSpending.Text = (totalSpending / totalMonths).ToString();
-                AvgWeekSpending.Text = (totalSpending / totalWeeks).ToString();
-            }
+
+            TotalCreditValue.Text = totalCredit.ToString();
+            AvgMoCredit.Text = (totalCredit / totalMonths).ToString();
+            AvgWeekCredit.Text = (totalCredit / totalWeeks).ToString();
+
+            TotalIncomeValue.Text = totalIncome.ToString();
+            AvgMoIncome.Text = (totalIncome / totalMonths).ToString();
+            AvgWeekIncome.Text = (totalIncome / totalWeeks).ToString();
+
+            TotalSpendingValue.Text = totalSpending.ToString();
+            AvgMoSpending.Text = (totalSpending / totalMonths).ToString();
+            AvgWeekSpending.Text = (totalSpending / totalWeeks).ToString();            
 
             NetGainLossValue.Text = (totalIncome + totalSpending).ToString();
         }
-
+        
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             ValueDataGrid.SelectAllCells();
@@ -126,11 +120,6 @@ namespace YearlyFinancer
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Update_Click(object sender, RoutedEventArgs e)
         {
 
         }

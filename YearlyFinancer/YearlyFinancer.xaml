@@ -54,7 +54,7 @@
             </TabItem>
             <TabItem Header="Data">
                 <Grid>
-                    <RadioButton x:Name="incomeRadioButton" GroupName ="TransType" Content="Income" Margin="239,3,154,227"/>
+                    <RadioButton x:Name="incomeRadioButton" GroupName ="TransType" Content="Income" Margin="239,3,154,227" IsChecked="True"/>
                     <RadioButton x:Name="spendingRadioButton" GroupName ="TransType" Content="Spending" Margin="318,3,75,227"/>
                     <RadioButton x:Name="creditRadioButton" GroupName ="TransType" Content="Credit" Margin="432,3,10,238"/>
                     <TextBox x:Name="Description" HorizontalAlignment="Left"
@@ -70,26 +70,7 @@
 		                     TextWrapping="Wrap"
 		                     Text=""
 		                     VerticalAlignment="Top"
-		                     Width="100"
-		                     TextChanged="TextBox_TextChanged"/>
-                    <Button x:Name="Debit"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Top"
-                            Margin="125,41,282,0"
-                            Height="25"
-                            Width="100"
-                            Click="Debit_Click">
-                        <TextBlock>Debit</TextBlock>
-                    </Button>
-                    <Button x:Name="Credit"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Margin="0,43,51,0"
-                            Height="25"
-                            Width="100"
-                            Click="Credit_Click">
-                        <TextBlock>Credit</TextBlock>
-                    </Button>
+		                     Width="100"/>
                     <DataGrid x:Name="ValueDataGrid" ItemsSource = "{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=Data}" AutoGenerateColumns="False" Margin="0,80,0,0">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
