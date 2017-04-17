@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
@@ -7,13 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace YearlyFinancer
 {
@@ -23,7 +17,11 @@ namespace YearlyFinancer
     public partial class MainWindow : Window
     {
         public const int totalMonths = 12;
-        public const int totalWeeks = 52;        
+        public const int totalWeeks = 52;
+        private const string fileFilter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+
+        private string FileName = string.Empty;
+
         public ObservableCollection<DataEntry> Data
         {
             get;
@@ -85,17 +83,26 @@ namespace YearlyFinancer
         
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            ValueDataGrid.SelectAllCells();
-            ValueDataGrid.ClipboardCopyMode = DataGridClipboardCopyMode.IncludeHeader;
-            ApplicationCommands.Copy.Execute(null, ValueDataGrid);
-            ValueDataGrid.UnselectAllCells();
-            string result = (string)Clipboard.GetData(DataFormats.CommaSeparatedValue);
-            File.AppendAllText(@"values.csv", result, UnicodeEncoding.UTF8);
+            if (string.IsNullOrEmpty(FileName))
+            {
+                SaveFileAs();
+            }
+            else
+            {
+                SaveFile();
+            }
         }
 
         private void Open_Click(object sender, RoutedEventArgs e)
         {
-            var dataVals = File.ReadAllLines("values.csv");
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = fileFilter;
+            if (ofd.ShowDialog() == true)
+            {
+                FileName = ofd.FileName;
+            }
+
+            var dataVals = File.ReadAllLines(FileName);
             for (int i = 1; i < dataVals.Length - 1; ++i)
             {
                 var dataEntry = FromCsv(dataVals[i]);
@@ -114,14 +121,35 @@ namespace YearlyFinancer
             return dataEntry;
         }
 
+        private void SaveFileAs()
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = fileFilter;
+            if (sfd.ShowDialog() == true)
+            {
+                FileName = sfd.FileName;
+                SaveFile();
+            }
+        }
+
+        private void SaveFile()
+        {
+            ValueDataGrid.SelectAllCells();
+            ValueDataGrid.ClipboardCopyMode = DataGridClipboardCopyMode.IncludeHeader;
+            ApplicationCommands.Copy.Execute(null, ValueDataGrid);
+            ValueDataGrid.UnselectAllCells();
+            string result = (string)Clipboard.GetData(DataFormats.CommaSeparatedValue);
+            File.AppendAllText(FileName, result, UnicodeEncoding.UTF8);            
+        }
+
         private void SaveAs_Click(object sender, RoutedEventArgs e)
         {
-
+            SaveFileAs();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
     }
 }
