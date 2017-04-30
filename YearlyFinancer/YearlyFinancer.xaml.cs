@@ -44,7 +44,13 @@ namespace YearlyFinancer
             Data.Add(dataEntry);
         }
         
-        private void Update_Click(object sender, RoutedEventArgs e)
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            AddEntry();
+            UpdateStats();
+        }
+
+        private void AddEntry()
         {
             var value = Convert.ToDouble(ValueEntry.Text);
             DataEntry.TransactionType transType = DataEntry.TransactionType.Income;
@@ -62,6 +68,10 @@ namespace YearlyFinancer
             }
 
             InsertValue(transType);
+        }
+
+        private void UpdateStats()
+        {
             double totalCredit = Data.Where(d => d.TransType == DataEntry.TransactionType.Credit).ToList().Sum(v => v.EntryValue);
             double totalIncome = Data.Where(d => d.TransType == DataEntry.TransactionType.Income).ToList().Sum(v => v.EntryValue);
             double totalSpending = Data.Where(d => d.TransType == DataEntry.TransactionType.Spending).ToList().Sum(v => v.EntryValue);
@@ -76,7 +86,7 @@ namespace YearlyFinancer
 
             TotalSpendingValue.Text = totalSpending.ToString();
             AvgMoSpending.Text = (totalSpending / totalMonths).ToString();
-            AvgWeekSpending.Text = (totalSpending / totalWeeks).ToString();            
+            AvgWeekSpending.Text = (totalSpending / totalWeeks).ToString();
 
             NetGainLossValue.Text = (totalIncome + totalSpending).ToString();
         }
@@ -150,6 +160,42 @@ namespace YearlyFinancer
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dataCollection = ValueDataGrid.ItemsSource as ObservableCollection<DataEntry>;
+            var dataEntry = ValueDataGrid.SelectedItems[0] as DataEntry;
+            if (dataCollection != null && dataEntry != null)
+            {
+                dataCollection.Remove(dataEntry);
+            }
+            
+            UpdateStats();
+        }
+        
+        private void ValueEntry_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                AddEntry();
+                UpdateStats();
+            }
+        }
+
+        private void ValueDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Description.Text = string.Empty;
+            ValueEntry.Text = string.Empty;
+            RemoveButton.IsEnabled = true;
+        }
+
+        private void ValueDataGrid_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (ValueDataGrid.IsKeyboardFocusWithin)
+            {
+                RemoveButton.IsEnabled = false;
+            }
         }
     }
 }

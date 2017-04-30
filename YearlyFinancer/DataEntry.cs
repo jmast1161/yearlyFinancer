@@ -25,7 +25,8 @@ namespace YearlyFinancer
 
             set
             {
-                SetField(ref description, value, "Description");
+                description = value;
+                OnPropertyChanged("Description");
             }
         }
 
@@ -39,7 +40,8 @@ namespace YearlyFinancer
 
             set
             {
-                SetField(ref date, value, "Date");
+                date = value;
+                OnPropertyChanged("Date");
             }
         }
 
@@ -53,7 +55,8 @@ namespace YearlyFinancer
 
             set
             {
-                SetField(ref transType, value, "TransType");
+                transType = value;
+                OnPropertyChanged("TransType");
             }
         }
 
@@ -67,7 +70,8 @@ namespace YearlyFinancer
 
             set
             {
-                SetField(ref entryValue, value, "EntryValue");
+                entryValue = value;
+                OnPropertyChanged("EntryValue");
             }
         }
 
@@ -75,16 +79,10 @@ namespace YearlyFinancer
         
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetField<T>(ref T field, T value, string propertyName)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }
